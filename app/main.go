@@ -7,6 +7,45 @@ import (
 	"strings"
 )
 
+func echo(command string) {
+	_, text, _ := strings.Cut(command, "echo ")
+	fmt.Println(text)
+}
+
+func type_command(command string) {
+	if command == "type" {
+		fmt.Println("type is a shell builtin")
+	} else {
+		removed_from_command := strings.Join(strings.Split(command, "type ")[1:], " ")
+		valid_commands := [] string{"echo", "exit", "type"}
+
+		for {
+			removed_from_command = strings.Trim(removed_from_command, " ")
+			removed_from_command_splited := strings.Split(removed_from_command, " ")
+			second_command := removed_from_command_splited[0]
+
+			if second_command == "" {
+				break
+			}
+			
+			flag := false
+			for _, valid_command := range(valid_commands) {
+				if valid_command == second_command {
+					fmt.Println(second_command + " is a shell builtin")
+					flag = true
+					break
+				}
+			}
+
+			if !flag {
+				fmt.Println(second_command + ": command not found")
+			}
+			
+			removed_from_command = strings.Join(removed_from_command_splited[1:], " ")
+		}
+	}
+}
+
 func main() {
 	for {
 		fmt.Print("$ ")
@@ -15,13 +54,14 @@ func main() {
 		string_command := command[:len(command) - 1]
 		string_command = strings.Trim(string_command, " ")
 		if string_command != "" {
-			if string_command == "exit" {
-				return
-			} else if strings.Contains(string_command, "echo") {
-				_, echo, _ := strings.Cut(string_command, "echo ")
-				fmt.Println(echo)	
-			} else {
-				fmt.Println(string_command + ": command not found")
+			first_command := strings.Split(string_command, " ")[0]
+			switch first_command {
+
+			case "exit" : return
+			case "echo" : echo(string_command)
+			case "type" : type_command(string_command)
+
+			default: fmt.Println(string_command + ": command not found")
 			}
 		}
 	} 
