@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"bufio"
 	"os"
+	"os/exec"
 	"strings"
 )
 
@@ -41,7 +42,12 @@ func type_command(command string) {
 			}
 
 			if !flag {
-				fmt.Println(second_command + ": not found")
+				path, err := exec.LookPath(second_command)
+				if err != nil {
+					fmt.Println(second_command + ": not found")
+				} else {
+					fmt.Println(second_command + " is " + path)
+				}
 			}
 			
 			removed_from_command = strings.Join(removed_from_command_splited[1:], " ")
