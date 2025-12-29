@@ -20,16 +20,19 @@ func type_command(command string) {
 		valid_commands := [] string{"echo", "exit", "type"}
 
 		for {
+			// using trim and split to remove all the spaces and get the actual text each iteration
 			removed_from_command = strings.Trim(removed_from_command, " ")
 			removed_from_command_splited := strings.Split(removed_from_command, " ")
 			second_command := removed_from_command_splited[0]
 
+			// break statement
 			if second_command == "" {
 				break
 			}
 			
 			flag := false
 			for _, valid_command := range(valid_commands) {
+				// cheking of the text is a valid command or not
 				if valid_command == second_command {
 					fmt.Println(second_command + " is a shell builtin")
 					flag = true
@@ -38,7 +41,7 @@ func type_command(command string) {
 			}
 
 			if !flag {
-				fmt.Println(second_command + ": command not found")
+				fmt.Println(second_command + ": not found")
 			}
 			
 			removed_from_command = strings.Join(removed_from_command_splited[1:], " ")
