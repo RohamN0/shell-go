@@ -17,9 +17,12 @@ func main() {
 		if string_command != "" {
 			if string_command == "exit" {
 				return
+			} else if strings.Contains(string_command, "echo") {
+				_, echo, _ := strings.Cut(string_command, "echo ")
+				fmt.Println(echo)	
+			} else {
+				fmt.Println(string_command + ": command not found")
 			}
-
-			fmt.Println(string_command + ": command not found")
 		}
 	} 
 }
