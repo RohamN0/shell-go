@@ -13,7 +13,12 @@ func main() {
 		command, _ := bufio.NewReader(os.Stdin).ReadString('\n')
 		
 		string_command := command[:len(command) - 1]
-		if strings.Trim(string_command, " ")  != "" {
+		string_command = strings.Trim(string_command, " ")
+		if string_command != "" {
+			if string_command == "exit" {
+				return
+			}
+
 			fmt.Println(string_command + ": command not found")
 		}
 	} 
