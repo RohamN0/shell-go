@@ -17,7 +17,7 @@ func Type(command string) {
 		fmt.Println("type is a shell builtin")
 	} else {
 		removed_from_command := strings.Join(strings.Split(command, "type ")[1:], " ")
-		valid_commands := [] string{"echo", "exit", "type"}
+		valid_commands := [] string{"echo", "exit", "type", "pwd"}
 
 		for {
 			// using trim and split to remove all the spaces and get the actual text each iteration
