@@ -64,9 +64,10 @@ func Tokenize(line string) ([]string) {
 func EchoTokenize(text string) string {
 	if strings.Count(text, "'") / 2 != 0 {
 		text = strings.ReplaceAll(text, "'", "")
+	} else {
+		text_splited := strings.Fields(text)
+		text = strings.Join(text_splited, " ")
 	}
-	text_splited := strings.Fields(text)
-	text = strings.Join(text_splited, " ")
 
 	return text
 }
