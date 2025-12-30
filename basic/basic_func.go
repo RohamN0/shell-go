@@ -11,9 +11,6 @@ import (
 
 func Echo(command string) {
 	command_splited := tokenizer.Tokenize(command)[1:]
-	for i, text := range(command_splited) {
-		command_splited[i] = tokenizer.EchoTokenize(text)
-	}
 	command = strings.Join(command_splited, " ")
 
 	fmt.Println(command)

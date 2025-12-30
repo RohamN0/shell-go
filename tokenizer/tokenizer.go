@@ -2,6 +2,7 @@ package tokenizer
 
 import (
 	"strings"
+	"unicode"
 )
 
 func Tokenize(line string) ([]string) {
@@ -20,6 +21,11 @@ func Tokenize(line string) ([]string) {
             continue
         }
 
+		if c == '\\' && !inSingle {
+            escaped = true
+            continue
+        }
+
         switch c {
         case '\'' :
             if !inDouble {
@@ -35,27 +41,20 @@ func Tokenize(line string) ([]string) {
             }
             current.WriteByte(c)
 
-        case ' ', '\t', '\n' :
-            if !inSingle && !inDouble {
+        default :
+            if unicode.IsSpace(rune(c)) && !inSingle && !inDouble {
                 if current.Len() > 0 {
                     args = append(args, current.String())
                     current.Reset()
                 }
-                continue
+            } else {
+                current.WriteByte(c)
             }
-            current.WriteByte(c)
-
-        default :
-            current.WriteByte(c)
         }
     }
 
     if current.Len() > 0 {
         args = append(args, current.String())
-    }
-
-    if inSingle || inDouble {
-        return nil
     }
 
     return args
