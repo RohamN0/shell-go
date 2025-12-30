@@ -25,6 +25,7 @@ func main() {
 			case "echo" : basic.Echo(string_command)
 			case "type" : basic.Type(string_command)
 			case "pwd" :  navigation.PWD(string_command)
+			case "cd" :  navigation.CD(string_command)
 
 			default: basic.RunExternalProgram(string_command)
 			}
