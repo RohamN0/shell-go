@@ -82,7 +82,6 @@ func run_external_program(path string) {
 				removed_from_command = strings.Trim(removed_from_command, " ")
 				removed_from_command_splited := strings.Split(removed_from_command, " ")
 				arg := removed_from_command_splited[0]
-				fmt.Println(arg)
 				// appending all the args
 				args = append(args, arg)
 				
