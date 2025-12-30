@@ -10,21 +10,20 @@ func Tokenize(line string) ([]string) {
     var current strings.Builder
     inSingle := false
     inDouble := false
-    escaped := false
 
     for i := 0; i < len(line); i++ {
         c := line[i]
 
-        if escaped {
-            current.WriteByte(c)
-            escaped = false
-            continue
-        }
-
 		if c == '\\' && !inSingle {
-            escaped = true
-            continue
-        }
+			if i + 1 < len(line) {
+				next := line[i + 1]
+				current.WriteByte(next)
+				i++
+				continue
+			}
+			current.WriteByte('\\')
+			continue
+		}
 
         switch c {
         case '\'' :
@@ -44,7 +43,7 @@ func Tokenize(line string) ([]string) {
         default :
             if unicode.IsSpace(rune(c)) && !inSingle && !inDouble {
                 if current.Len() > 0 {
-                    args = append(args, current.String())
+                args = append(args, current.String())
                     current.Reset()
                 }
             } else {
@@ -58,15 +57,4 @@ func Tokenize(line string) ([]string) {
     }
 
     return args
-}
-
-func EchoTokenize(text string) string {
-	if strings.Count(text, "'") / 2 != 0 {
-		text = strings.ReplaceAll(text, "'", "")
-	} else {
-		text_splited := strings.Fields(text)
-		text = strings.Join(text_splited, " ")
-	}
-
-	return text
 }
