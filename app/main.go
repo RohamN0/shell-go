@@ -82,13 +82,13 @@ func run_external_program(path string) {
 				removed_from_command = strings.Trim(removed_from_command, " ")
 				removed_from_command_splited := strings.Split(removed_from_command, " ")
 				arg := removed_from_command_splited[0]
-				// appending all the args
-				args = append(args, arg)
 				
 				// break statement
 				if arg == "" {
 					break
 				}
+				// appending all the args
+				args = append(args, arg)
 				
 				removed_from_command = strings.Join(removed_from_command_splited[1:], " ")
 			}
