@@ -38,13 +38,13 @@ func CD(command string) {
 			_, err := os.Stat(abs_path)
 			
 			if os.IsNotExist(err) {
-				fmt.Println("cd:", path, ": No such file or directory")
+				fmt.Println("cd: " + path + ": No such file or directory")
 			} else {
 				os.Chdir(abs_path)
 			}
 
 		} else if os.IsNotExist(err) {
-			fmt.Println("cd:", path, ": No such file or directory")
+			fmt.Println("cd: " + path + ": No such file or directory")
 		}
 	}
 }
