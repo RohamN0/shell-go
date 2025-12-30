@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"bufio"
+	"fmt"
 	"os"
 	"os/exec"
 	"strings"
@@ -55,9 +55,9 @@ func type_command(command string) {
 	}
 }
 
-func run_external_program(path string) {
+func run_external_program(command string) {
 	// checking if there is only one command with no args
-	command, err := exec.LookPath(path)
+	_, err := exec.LookPath(command)
 	if err == nil {
 		cmd := exec.Command(command)
 		cmd.Stdin = os.Stdin
@@ -68,14 +68,14 @@ func run_external_program(path string) {
 		}
 
 	} else {
-		command := strings.Split(path, " ")[0]
+		actual_command := strings.Split(command, " ")[0]
 
-		actual_command, err := exec.LookPath(command)
+		_, err := exec.LookPath(actual_command)
 		if err != nil {
-			fmt.Println(command + ": command not found")
+			fmt.Println(actual_command + ": command not found")
 		} else {
 			args := [] string{actual_command}
-			removed_from_command := strings.Join(strings.Split(path, " ")[1:], " ")
+			removed_from_command := strings.Join(strings.Split(command, " ")[1:], " ")
 
 			for {
 				// using trim and split to remove all the spaces and get the actual text each iteration
