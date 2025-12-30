@@ -55,6 +55,56 @@ func type_command(command string) {
 	}
 }
 
+func run_external_program(path string) {
+	// checking if there is only one command with no args
+	command, err := exec.LookPath(path)
+	if err == nil {
+		cmd := exec.Command(command)
+		cmd.Stdin = os.Stdin
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+		if err := cmd.Run(); err != nil {
+    		fmt.Fprintf(os.Stderr, "%v\n", err)
+		}
+
+	} else {
+		command := strings.Split(path, " ")[0]
+
+		actual_command, err := exec.LookPath(command)
+		if err != nil {
+			fmt.Println(command + ": command not found")
+		} else {
+			args := [] string{actual_command}
+			removed_from_command := strings.Join(strings.Split(path, " ")[1:], " ")
+
+			for {
+				// using trim and split to remove all the spaces and get the actual text each iteration
+				removed_from_command = strings.Trim(removed_from_command, " ")
+				removed_from_command_splited := strings.Split(removed_from_command, " ")
+				arg := removed_from_command_splited[0]
+				fmt.Println(arg)
+				// appending all the args
+				args = append(args, arg)
+				
+				// break statement
+				if arg == "" {
+					break
+				}
+				
+				removed_from_command = strings.Join(removed_from_command_splited[1:], " ")
+			}
+
+			cmd := exec.Command(args[0], args[1])
+			cmd.Stdin = os.Stdin
+			cmd.Stdout = os.Stdout
+			cmd.Stderr = os.Stderr
+			if err := cmd.Run(); err != nil {
+    			fmt.Fprintf(os.Stderr, "%v\n", err)
+			}
+		}
+	}
+}
+
 func main() {
 	for {
 		fmt.Print("$ ")
@@ -70,7 +120,7 @@ func main() {
 			case "echo" : echo(string_command)
 			case "type" : type_command(string_command)
 
-			default: fmt.Println(string_command + ": command not found")
+			default: run_external_program(string_command)
 			}
 		}
 	} 
