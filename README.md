@@ -1,0 +1,2 @@
+# shell-go
+**shell-go** is an educational shell implementation in Go, created while following the CodeCrafters “Build Your Own Shell” challenge. It gradually gains the ability to execute external commands, resolve executables via `PATH`, handle built-in commands (`echo`, `type`, `pwd`, `cd`), and support quoting and basic output redirection. The project follows the challenge’s incremental stages, making it a practical demonstration of how a Unix shell works under the hood.
